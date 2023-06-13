@@ -3,27 +3,18 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTodos } from '@/redux/slices/todo';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Box,
-  Container,
-  Heading,
-  Stack,
-  StackDivider,
-  Text,
-} from '@chakra-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const dispatch = useDispatch();
-  const todoList = useSelector((state) => state.todo.data);
+  const { isLoading, data, isError } = useSelector((state) => state.todo);
   useEffect(() => {
     dispatch(fetchTodos());
   }, []);
-
+  if (isLoading) {
+    return 'Loding';
+  }
   return (
     <>
       <Head>
@@ -33,45 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${inter.className}`}>
-        <Container>
-          {todoList &&
-            todoList.map(({ title, id }) => (
-              <Card key={id}>
-                <CardHeader>
-                  <Heading size="md">{title}</Heading>
-                </CardHeader>
-
-                <CardBody>
-                  <Stack divider={<StackDivider />} spacing="4">
-                    <Box>
-                      <Heading size="xs" textTransform="uppercase">
-                        Summary
-                      </Heading>
-                      <Text pt="2" fontSize="sm">
-                        View a summary of all your clients over the last month.
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Heading size="xs" textTransform="uppercase">
-                        Overview
-                      </Heading>
-                      <Text pt="2" fontSize="sm">
-                        Check out the overview of your clients.
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Heading size="xs" textTransform="uppercase">
-                        Analysis
-                      </Heading>
-                      <Text pt="2" fontSize="sm">
-                        See a detailed analysis of all your business clients.
-                      </Text>
-                    </Box>
-                  </Stack>
-                </CardBody>
-              </Card>
-            ))}
-        </Container>
+        {data && data.map(({ title, id }) => <p key={id}>{title}</p>)}
       </main>
     </>
   );
