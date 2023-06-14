@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, editTodo } from '@/redux/slices/todo';
+import { addTodo, editTodo } from '@/api/todo';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 
@@ -8,9 +8,9 @@ const defaultValues = {
   description: '',
   done: false,
 };
-const AddForm = () => {
+const TodoForm = () => {
   const editData = useSelector((state) => state.todo.editData);
-
+  console.log(editData);
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
 
@@ -33,7 +33,7 @@ const AddForm = () => {
     if (editData) {
       reset(editData);
     }
-  }, [editData, reset]);
+  }, [editData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,4 +48,4 @@ const AddForm = () => {
   );
 };
 
-export default AddForm;
+export default TodoForm;

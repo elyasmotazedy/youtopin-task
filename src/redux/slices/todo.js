@@ -1,53 +1,5 @@
-import { api } from '@/api';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-export const fetchTodos = createAsyncThunk('fetchTodos', async () => {
-  try {
-    const { data } = await api.get('/todos');
-    return data;
-  } catch (err) {
-    return false;
-  }
-});
-export const addTodo = createAsyncThunk('addTodo', async (params) => {
-  try {
-    const { data } = await api.post('/todos', { ...params });
-    return data;
-  } catch (err) {
-    return false;
-  }
-});
-
-export const removeTodo = createAsyncThunk(
-  'removeTodo',
-  async (id, { dispatch }) => {
-    try {
-      const { status } = await api.delete(`/todos/${id}`);
-
-      if (status === 200) {
-        dispatch(fetchTodos());
-      }
-      return data;
-    } catch (err) {
-      return false;
-    }
-  }
-);
-export const editTodo = createAsyncThunk(
-  'editTodo',
-  async (data, { dispatch }) => {
-    try {
-      const { status } = await api.put(`/todos/${data.id}`, { ...data });
-
-      if (status === 200) {
-        dispatch(fetchTodos());
-      }
-      return data;
-    } catch (err) {
-      return false;
-    }
-  }
-);
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchTodos, addTodo, removeTodo, editTodo } from '@/api/todo';
 
 const todoSlice = createSlice({
   name: 'todo',
@@ -86,7 +38,6 @@ const todoSlice = createSlice({
     });
     builder.addCase(editTodo.fulfilled, (state, action) => {
       state.isLoading = false;
-      // state.data = [...state.data, action.payload];
     });
     builder.addCase(removeTodo.fulfilled, (state, action) => {
       state.isLoading = false;

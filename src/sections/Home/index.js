@@ -1,4 +1,5 @@
-import { removeTodos, setEditData } from '@/redux/slices/todo';
+import { removeTodo } from '@/api/todo';
+import { setEditData } from '@/redux/slices/todo';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -16,7 +17,7 @@ const TodoItem = ({ item }) => {
   const { title, id } = item;
   const dispatch = useDispatch();
   const deleteTodo = (id) => {
-    dispatch(removeTodos(id));
+    dispatch(removeTodo(id));
   };
 
   return (

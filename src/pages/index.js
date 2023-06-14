@@ -1,30 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { Handlee } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos } from '@/redux/slices/todo';
+import { fetchTodos } from '@/api/todo';
 import TodoItem from '@/sections/Home';
 import { Container, Grid, Typography } from '@mui/material';
-import AddForm from '@/components/AddForm';
+import TodoForm from '@/components/TodoForm';
 
 const handlee = Handlee({ subsets: ['latin'], weight: ['400'] });
 
 export default function Home() {
-  const [todoItem, setTodoItem] = useState();
   const dispatch = useDispatch();
   const { isLoading, data, isError } = useSelector((state) => state.todo);
   useEffect(() => {
     dispatch(fetchTodos());
   }, [dispatch]);
+
   if (isLoading) {
     return 'Loding';
   }
 
-  console.log('data', data);
   return (
     <>
       <Head>
-        <title>TODO APP </title>
+        <title>TODO APP</title>
         <meta name="description" content="this is todo manager app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -42,17 +41,18 @@ export default function Home() {
 
         <Grid container>
           <Grid container>
-            <Grid item>
-              <AddForm />
+            <Grid item xs={4}>
+              <TodoForm />
+            </Grid>
+            <Grid item container xs={8}>
+              {data &&
+                data.map((item) => (
+                  <Grid key={item.id} xs={3} sx={{ my: 4 }}>
+                    <TodoItem item={item} />
+                  </Grid>
+                ))}
             </Grid>
           </Grid>
-
-          {data &&
-            data.map((item) => (
-              <Grid key={item.id} xs={3} sx={{ my: 4 }}>
-                <TodoItem item={item} />
-              </Grid>
-            ))}
         </Grid>
       </Container>
     </>
