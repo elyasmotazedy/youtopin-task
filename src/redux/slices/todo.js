@@ -13,7 +13,7 @@ const todoSlice = createSlice({
   initialState: {
     isLoading: false,
     data: null,
-    isError: false,
+    isError: null,
     editData: null,
   },
   reducers: {
@@ -69,29 +69,34 @@ const todoSlice = createSlice({
     // _________________________________________
 
     builder.addCase(fetchTodo.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
+      // state.isError = true;
+      console.log('action __ action', action);
+      if (action.payload) {
+        state.isError = action.payload.errorMessage;
+      } else {
+        state.isError = action.error.message;
+      }
     });
-    builder.addCase(fetchTodos.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
-    });
-    builder.addCase(addTodo.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
-    });
-    builder.addCase(editTodo.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
-    });
-    builder.addCase(removeTodo.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
-    });
-    builder.addCase(chageTodoDone.rejected, (state, action) => {
-      console.log('Error', action.payload);
-      state.isError = true;
-    });
+    // builder.addCase(fetchTodos.rejected, (state, action) => {
+    //   console.log('Error', action.payload);
+    //   state.isError = true;
+    // });
+    // builder.addCase(addTodo.rejected, (state, action) => {
+    //   console.log('Error', action.payload);
+    //   state.isError = true;
+    // });
+    // builder.addCase(editTodo.rejected, (state, action) => {
+    //   console.log('Error', action.payload);
+    //   state.isError = true;
+    // });
+    // builder.addCase(removeTodo.rejected, (state, action) => {
+    //   console.log('Error', action.payload);
+    //   state.isError = true;
+    // });
+    // builder.addCase(chageTodoDone.rejected, (state, action) => {
+    //   console.log('Error', action.payload);
+    //   state.isError = true;
+    // });
   },
 });
 

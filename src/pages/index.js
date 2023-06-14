@@ -18,6 +18,7 @@ export default function Home() {
     dispatch(fetchTodos());
   }, [dispatch]);
 
+  console.log('isError', isError);
   return (
     <>
       <Head>

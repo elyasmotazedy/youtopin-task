@@ -1,14 +1,18 @@
 import { api } from '@/api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-export const fetchTodos = createAsyncThunk('fetchTodos', async () => {
-  try {
-    const { data } = await api.get('/todos');
+export const fetchTodos = createAsyncThunk(
+  'fetchTodos',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get('/todoss');
 
-    return data;
-  } catch (err) {
-    return false;
+      return data;
+    } catch (err) {
+      return { successful: false, ...err };
+      // return rejectWithValue(err.response.data);
+    }
   }
-});
+);
 
 export const fetchTodo = createAsyncThunk('fetchTodo', async (id) => {
   try {
