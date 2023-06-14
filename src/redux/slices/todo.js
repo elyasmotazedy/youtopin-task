@@ -9,7 +9,7 @@ export const fetchTodos = createAsyncThunk('fetchTodos', async () => {
     return false;
   }
 });
-export const addTodos = createAsyncThunk('addTodos', async (params) => {
+export const addTodo = createAsyncThunk('addTodo', async (params) => {
   try {
     const { data } = await api.post('/todos', { ...params });
     return data;
@@ -17,12 +17,27 @@ export const addTodos = createAsyncThunk('addTodos', async (params) => {
     return false;
   }
 });
-export const removeTodos = createAsyncThunk(
-  'removeTodos',
+
+export const removeTodo = createAsyncThunk(
+  'removeTodo',
   async (id, { dispatch }) => {
     try {
       const { status } = await api.delete(`/todos/${id}`);
-      console.log('remove::', status);
+
+      if (status === 200) {
+        dispatch(fetchTodos());
+      }
+      return data;
+    } catch (err) {
+      return false;
+    }
+  }
+);
+export const editTodo = createAsyncThunk(
+  'editTodo',
+  async (data, { dispatch }) => {
+    try {
+      const { status } = await api.put(`/todos/${data.id}`, { ...data });
 
       if (status === 200) {
         dispatch(fetchTodos());
@@ -40,15 +55,24 @@ const todoSlice = createSlice({
     isLoading: false,
     data: null,
     isError: false,
+    editData: null,
+  },
+  reducers: {
+    setEditData: (state, action) => {
+      state.editData = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, action) => {
       state.isLoading = true;
     });
-    builder.addCase(addTodos.pending, (state, action) => {
+    builder.addCase(addTodo.pending, (state, action) => {
       state.isLoading = true;
     });
-    builder.addCase(removeTodos.pending, (state, action) => {
+    builder.addCase(editTodo.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(removeTodo.pending, (state, action) => {
       state.isLoading = true;
     });
     // _________________________________________
@@ -56,28 +80,37 @@ const todoSlice = createSlice({
       state.isLoading = false;
       state.data = action.payload;
     });
-    builder.addCase(addTodos.fulfilled, (state, action) => {
+    builder.addCase(addTodo.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = [...state.data, action.payload];
     });
-    builder.addCase(removeTodos.fulfilled, (state, action) => {
+    builder.addCase(editTodo.fulfilled, (state, action) => {
       state.isLoading = false;
       // state.data = [...state.data, action.payload];
+    });
+    builder.addCase(removeTodo.fulfilled, (state, action) => {
+      state.isLoading = false;
     });
     // _________________________________________
     builder.addCase(fetchTodos.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
     });
-    builder.addCase(addTodos.rejected, (state, action) => {
+    builder.addCase(addTodo.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
     });
-    builder.addCase(removeTodos.rejected, (state, action) => {
+    builder.addCase(editTodo.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+    });
+    builder.addCase(removeTodo.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
     });
   },
 });
+
+export const { setEditData } = todoSlice.actions;
 
 export default todoSlice.reducer;

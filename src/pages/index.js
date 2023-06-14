@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Handlee } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import AddForm from '@/components/AddForm';
 const handlee = Handlee({ subsets: ['latin'], weight: ['400'] });
 
 export default function Home() {
+  const [todoItem, setTodoItem] = useState();
   const dispatch = useDispatch();
   const { isLoading, data, isError } = useSelector((state) => state.todo);
   useEffect(() => {
@@ -47,9 +48,9 @@ export default function Home() {
           </Grid>
 
           {data &&
-            data.map(({ title, id }) => (
-              <Grid key={id} xs={3} sx={{ my: 4 }}>
-                <TodoItem title={title} id={id} />
+            data.map((item) => (
+              <Grid key={item.id} xs={3} sx={{ my: 4 }}>
+                <TodoItem item={item} />
               </Grid>
             ))}
         </Grid>

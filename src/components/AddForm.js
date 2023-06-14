@@ -1,28 +1,39 @@
-import { useDispatch } from 'react-redux';
-import { addTodos } from '@/redux/slices/todo';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, editTodo } from '@/redux/slices/todo';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 const defaultValues = {
   title: '',
   description: '',
   done: false,
 };
-
 const AddForm = () => {
+  const editData = useSelector((state) => state.todo.editData);
+
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
+
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors, isSubmitting },
   } = methods;
 
   const onSubmit = (data) => {
-    dispatch(addTodos(data));
+    if (editData) {
+      dispatch(editTodo(data));
+    } else {
+      dispatch(addTodo(data));
+    }
   };
 
-  console.log(watch('example'));
+  useEffect(() => {
+    if (editData) {
+      reset(editData);
+    }
+  }, [editData, reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

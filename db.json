@@ -1,13 +1,13 @@
 {
   "todos": [
     {
-      "title": "dfs df",
+      "title": "elias",
       "description": "sdfsdf",
       "done": false,
       "id": 7
     },
     {
-      "title": "sdfsdf",
+      "title": "testtt",
       "description": "sdfsfd",
       "done": false,
       "id": 14
@@ -29,12 +29,6 @@
       "description": "fghfgh",
       "done": false,
       "id": 17
-    },
-    {
-      "title": "sdfsfd",
-      "description": "dgffghf",
-      "done": false,
-      "id": 18
     }
   ]
 }
