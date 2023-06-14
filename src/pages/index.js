@@ -6,6 +6,8 @@ import { fetchTodos } from '@/api/todo';
 import TodoItem from '@/sections/Home';
 import { Container, Grid, Typography } from '@mui/material';
 import TodoForm from '@/components/TodoForm';
+import { styled } from '@mui/material/styles';
+import LoadingPlaceHolder from '@/components/LoadingPlaceHolder';
 
 const handlee = Handlee({ subsets: ['latin'], weight: ['400'] });
 
@@ -16,10 +18,6 @@ export default function Home() {
     dispatch(fetchTodos());
   }, [dispatch]);
 
-  if (isLoading) {
-    return 'Loding';
-  }
-
   return (
     <>
       <Head>
@@ -28,7 +26,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container sx={{ background: 'lightblue' }}>
+      <Container>
         <Typography
           align="center"
           variant="h1"
@@ -40,21 +38,35 @@ export default function Home() {
         </Typography>
 
         <Grid container>
-          <Grid container>
-            <Grid item xs={4}>
-              <TodoForm />
-            </Grid>
-            <Grid item container xs={8}>
-              {data &&
-                data.map((item) => (
-                  <Grid key={item.id} xs={3} sx={{ my: 4 }}>
-                    <TodoItem item={item} />
-                  </Grid>
-                ))}
-            </Grid>
-          </Grid>
+          <AddTodoGrid item xs={4} sx={{ px: 3 }}>
+            <TodoForm />
+          </AddTodoGrid>
+          <TodosGrid item container xs={8} sx={{ px: 3 }}>
+            {isLoading ? (
+              <Grid container>
+                <LoadingPlaceHolder />
+              </Grid>
+            ) : (
+              data &&
+              data.map((item) => (
+                <Grid key={item.id} xs={4} sx={{ my: 2 }}>
+                  <TodoItem item={item} />
+                </Grid>
+              ))
+            )}
+          </TodosGrid>
         </Grid>
       </Container>
     </>
   );
 }
+
+const AddTodoGrid = styled(Grid)(({ theme }) => ({
+  border: '1px solid',
+  borderColor: theme.palette.grey[200],
+  minHeight: '500px',
+}));
+const TodosGrid = styled(Grid)(({ theme }) => ({
+  backgroundColor: theme.palette.grey[200],
+  minHeight: '500px',
+}));
