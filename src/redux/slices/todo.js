@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchTodos,
   addTodo,
@@ -6,10 +6,10 @@ import {
   editTodo,
   chageTodoDone,
   fetchTodo,
-} from '@/api/todo';
+} from "@/api/todo";
 
 const todoSlice = createSlice({
-  name: 'todo',
+  name: "todo",
   initialState: {
     isLoading: false,
     data: null,
@@ -69,34 +69,29 @@ const todoSlice = createSlice({
     // _________________________________________
 
     builder.addCase(fetchTodo.rejected, (state, action) => {
-      // state.isError = true;
-      console.log('action __ action', action);
-      if (action.payload) {
-        state.isError = action.payload.errorMessage;
-      } else {
-        state.isError = action.error.message;
-      }
+      console.log("Error", action.payload);
+      state.isError = true;
     });
-    // builder.addCase(fetchTodos.rejected, (state, action) => {
-    //   console.log('Error', action.payload);
-    //   state.isError = true;
-    // });
-    // builder.addCase(addTodo.rejected, (state, action) => {
-    //   console.log('Error', action.payload);
-    //   state.isError = true;
-    // });
-    // builder.addCase(editTodo.rejected, (state, action) => {
-    //   console.log('Error', action.payload);
-    //   state.isError = true;
-    // });
-    // builder.addCase(removeTodo.rejected, (state, action) => {
-    //   console.log('Error', action.payload);
-    //   state.isError = true;
-    // });
-    // builder.addCase(chageTodoDone.rejected, (state, action) => {
-    //   console.log('Error', action.payload);
-    //   state.isError = true;
-    // });
+    builder.addCase(fetchTodos.rejected, (state, action) => {
+      console.log("Error", action.payload);
+      state.isError = true;
+    });
+    builder.addCase(addTodo.rejected, (state, action) => {
+      console.log("Error", action.payload);
+      state.isError = true;
+    });
+    builder.addCase(editTodo.rejected, (state, action) => {
+      console.log("Error", action.payload);
+      state.isError = true;
+    });
+    builder.addCase(removeTodo.rejected, (state, action) => {
+      console.log("Error", action.payload);
+      state.isError = true;
+    });
+    builder.addCase(chageTodoDone.rejected, (state, action) => {
+      console.log("Error", action.payload);
+      state.isError = true;
+    });
   },
 });
 

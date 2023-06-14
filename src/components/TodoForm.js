@@ -1,14 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Controller } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
-import { addTodo, editTodo } from '@/api/todo';
-import { useEffect } from 'react';
-import { Checkbox, TextField, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { useDispatch, useSelector } from "react-redux";
+import { Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { addTodo, editTodo } from "@/api/todo";
+import { useEffect } from "react";
+import { Checkbox, TextField, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const defaultValues = {
-  title: '',
-  description: '',
+  title: "",
+  description: "",
   done: false,
 };
 const TodoForm = () => {
@@ -38,6 +38,7 @@ const TodoForm = () => {
     } else {
       reset(defaultValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editData]);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +50,7 @@ const TodoForm = () => {
         control={control}
         render={({ field }) => (
           <TextField
-            {...register('title', { required: true })}
+            {...register("title", { required: true })}
             {...field}
             label="Title"
             variant="outlined"
@@ -67,7 +68,7 @@ const TodoForm = () => {
           <TextField
             {...field}
             fullWidth
-            {...register('description', { required: true })}
+            {...register("description", { required: true })}
             label="Description"
             multiline
             rows={4}
@@ -87,7 +88,7 @@ const TodoForm = () => {
             {...field}
             checked={field.value}
             size="small"
-            {...register('done')}
+            {...register("done")}
           />
         )}
       />
@@ -95,11 +96,11 @@ const TodoForm = () => {
       <LoadingButton
         loading={isLoading}
         variant="outlined"
-        type={isLoading ? 'button' : 'submit'}
+        type={isLoading ? "button" : "submit"}
         fullWidth
         sx={{ my: 2 }}
       >
-        {editData ? 'Edit' : 'Add'}
+        {editData ? "Edit" : "Add"}
       </LoadingButton>
     </form>
   );

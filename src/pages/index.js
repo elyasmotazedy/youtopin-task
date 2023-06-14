@@ -1,24 +1,23 @@
-import { useEffect } from 'react';
-import Head from 'next/head';
-import { Handlee } from 'next/font/google';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos } from '@/api/todo';
-import TodoItem from '@/sections/Home';
-import { Container, Grid, Typography } from '@mui/material';
-import TodoForm from '@/components/TodoForm';
-import { styled } from '@mui/material/styles';
-import LoadingPlaceHolder from '@/components/LoadingPlaceHolder';
+import { useEffect } from "react";
+import Head from "next/head";
+import { Handlee } from "next/font/google";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodos } from "@/api/todo";
+import TodoItem from "@/sections/Home";
+import { Container, Grid, Typography } from "@mui/material";
+import TodoForm from "@/components/TodoForm";
+import { styled } from "@mui/material/styles";
+import { LoadingPlaceHolderTodos } from "@/components/LoadingPlaceHolder";
 
-const handlee = Handlee({ subsets: ['latin'], weight: ['400'] });
+const handlee = Handlee({ subsets: ["latin"], weight: ["400"] });
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { isLoading, data, isError } = useSelector((state) => state.todo);
+  const { isLoading, data } = useSelector((state) => state.todo);
   useEffect(() => {
     dispatch(fetchTodos());
   }, [dispatch]);
 
-  console.log('isError', isError);
   return (
     <>
       <Head>
@@ -39,17 +38,17 @@ export default function Home() {
         </Typography>
 
         <Grid container>
-          <AddTodoGrid item xs={4} sx={{ px: 3 }}>
+          <AddTodoGrid item xs={12} sm={4} sx={{ px: 3 }}>
             <TodoForm />
           </AddTodoGrid>
-          <TodosGrid item container xs={8} sx={{ px: 3 }}>
+          <TodosGrid item container xs={12} sm={8} sx={{ px: 3 }}>
             {isLoading ? (
               <Grid container item>
-                <LoadingPlaceHolder />
+                <LoadingPlaceHolderTodos />
               </Grid>
             ) : data ? (
               data.map((item) => (
-                <Grid key={item.id} xs={4} sx={{ my: 2 }} item>
+                <Grid key={item.id} xs={12} sm={6} md={3} sx={{ my: 2 }} item>
                   <TodoItem item={item} />
                 </Grid>
               ))
@@ -68,13 +67,13 @@ export default function Home() {
 }
 
 const AddTodoGrid = styled(Grid)(({ theme }) => ({
-  border: '1px solid',
+  border: "1px solid",
   borderColor: theme.palette.grey[200],
-  minHeight: '700px',
+  minHeight: "700px",
 }));
 const TodosGrid = styled(Grid)(({ theme }) => ({
   backgroundColor: theme.palette.grey[200],
-  minHeight: '700px',
-  maxHeight: '700px',
-  overflow: 'auto',
+  minHeight: "700px",
+  maxHeight: "700px",
+  overflow: "auto",
 }));

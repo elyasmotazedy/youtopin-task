@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import IsDone from '@/components/IsDone';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodo } from '@/api/todo';
-import { useRouter } from 'next/router';
-import { Container, Grid, Typography } from '@mui/material';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodo } from "@/api/todo";
+import { useRouter } from "next/router";
+import { Container, Grid, Typography } from "@mui/material";
+import { LoadingPlaceHolderTodo } from "@/components/LoadingPlaceHolder";
 
 const Todo = () => {
   const dispatch = useDispatch();
@@ -17,19 +17,27 @@ const Todo = () => {
   }, [dispatch, id]);
 
   if (isLoading) {
-    return 'loading';
+    return <LoadingPlaceHolderTodo />;
   }
 
   return (
     data && (
       <Container>
         <Grid container>
-          <Grid item>
+          <Grid item xs={12}>
             <Typography variant="h2" component="h1">
               {data.title}
             </Typography>
             <Typography variant="subtitle1" component="span">
-              <IsDone item={data} />
+              {data.done ? (
+                <Typography component="span" color="green">
+                  Done
+                </Typography>
+              ) : (
+                <Typography component="span" color="red">
+                  Not Done
+                </Typography>
+              )}
             </Typography>
 
             <Typography variant="button" component="p">

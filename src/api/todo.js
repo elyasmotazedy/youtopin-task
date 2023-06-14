@@ -1,20 +1,15 @@
-import { api } from '@/api';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-export const fetchTodos = createAsyncThunk(
-  'fetchTodos',
-  async (_, { rejectWithValue }) => {
-    try {
-      const { data } = await api.get('/todoss');
-
-      return data;
-    } catch (err) {
-      return { successful: false, ...err };
-      // return rejectWithValue(err.response.data);
-    }
+import { api } from "@/api";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+export const fetchTodos = createAsyncThunk("fetchTodos", async () => {
+  try {
+    const { data } = await api.get("/todos");
+    return data;
+  } catch (err) {
+    return false;
   }
-);
+});
 
-export const fetchTodo = createAsyncThunk('fetchTodo', async (id) => {
+export const fetchTodo = createAsyncThunk("fetchTodo", async (id) => {
   try {
     const { data } = await api.get(`/todos/${id}`);
     return data;
@@ -23,9 +18,9 @@ export const fetchTodo = createAsyncThunk('fetchTodo', async (id) => {
   }
 });
 
-export const addTodo = createAsyncThunk('addTodo', async (params) => {
+export const addTodo = createAsyncThunk("addTodo", async (params) => {
   try {
-    const { data } = await api.post('/todos', { ...params });
+    const { data } = await api.post("/todos", { ...params });
     return data;
   } catch (err) {
     return false;
@@ -33,7 +28,7 @@ export const addTodo = createAsyncThunk('addTodo', async (params) => {
 });
 
 export const removeTodo = createAsyncThunk(
-  'removeTodo',
+  "removeTodo",
   async (id, { dispatch }) => {
     try {
       const { status } = await api.delete(`/todos/${id}`);
@@ -48,7 +43,7 @@ export const removeTodo = createAsyncThunk(
   }
 );
 export const editTodo = createAsyncThunk(
-  'editTodo',
+  "editTodo",
   async (data, { dispatch }) => {
     try {
       const { status } = await api.put(`/todos/${data.id}`, { ...data });
@@ -63,7 +58,7 @@ export const editTodo = createAsyncThunk(
   }
 );
 export const chageTodoDone = createAsyncThunk(
-  'chageTodoDone',
+  "chageTodoDone",
   async (data, { dispatch }) => {
     try {
       const { status } = await api.put(`/todos/${data.id}`, { ...data });

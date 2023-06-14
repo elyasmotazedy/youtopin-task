@@ -33,7 +33,7 @@
     {
       "title": "this is a done task",
       "description": "yes",
-      "done": false,
+      "done": true,
       "id": 22
     },
     {
