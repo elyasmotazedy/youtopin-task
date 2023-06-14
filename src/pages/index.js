@@ -48,7 +48,7 @@ export default function Home() {
               </Grid>
             ) : data ? (
               data.map((item) => (
-                <Grid key={item.id} xs={12} sm={6} md={3} sx={{ my: 2 }} item>
+                <Grid key={item.id} xs={12} sm={6} md={4} sx={{ my: 2 }} item>
                   <TodoItem item={item} />
                 </Grid>
               ))
