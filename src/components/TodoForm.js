@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, editTodo } from '@/api/todo';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { TextField, Typography } from '@mui/material';
+import { Checkbox, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 const defaultValues = {
@@ -11,7 +11,7 @@ const defaultValues = {
   done: false,
 };
 const TodoForm = () => {
-  const editData = useSelector((state) => state.todo.editData);
+  const { editData, isLoading } = useSelector((state) => state.todo);
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues });
 
@@ -19,7 +19,7 @@ const TodoForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = methods;
 
   const onSubmit = (data) => {
@@ -35,7 +35,6 @@ const TodoForm = () => {
       reset(editData);
     }
   }, [editData]);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h3" component="p" sx={{ my: 2 }} align="center">
@@ -50,7 +49,6 @@ const TodoForm = () => {
         error={errors.title}
         helperText={errors.title && <span>This field is required</span>}
       />
-
       <TextField
         fullWidth
         {...register('description', { required: true })}
@@ -61,7 +59,15 @@ const TodoForm = () => {
         error={errors.description}
         helperText={errors.description && <span>This field is required</span>}
       />
-      <LoadingButton loading={isSubmitting} variant="outlined" type="submit">
+      <Checkbox size="small" {...register('done')} />
+      is it a done task?
+      <LoadingButton
+        loading={isLoading}
+        variant="outlined"
+        type={isLoading ? 'button' : 'submit'}
+        fullWidth
+        sx={{ my: 2 }}
+      >
         Add
       </LoadingButton>
     </form>

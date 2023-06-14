@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTodos, addTodo, removeTodo, editTodo } from '@/api/todo';
+import {
+  fetchTodos,
+  addTodo,
+  removeTodo,
+  editTodo,
+  chageTodoDone,
+} from '@/api/todo';
 
 const todoSlice = createSlice({
   name: 'todo',
@@ -27,7 +33,12 @@ const todoSlice = createSlice({
     builder.addCase(removeTodo.pending, (state, action) => {
       state.isLoading = true;
     });
+    builder.addCase(chageTodoDone.pending, (state, action) => {
+      state.isLoading = true;
+    });
+
     // _________________________________________
+
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
@@ -42,7 +53,12 @@ const todoSlice = createSlice({
     builder.addCase(removeTodo.fulfilled, (state, action) => {
       state.isLoading = false;
     });
+    builder.addCase(chageTodoDone.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+
     // _________________________________________
+
     builder.addCase(fetchTodos.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
@@ -56,6 +72,10 @@ const todoSlice = createSlice({
       state.isError = true;
     });
     builder.addCase(removeTodo.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+    });
+    builder.addCase(chageTodoDone.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
     });

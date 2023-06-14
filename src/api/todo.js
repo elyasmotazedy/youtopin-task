@@ -47,3 +47,18 @@ export const editTodo = createAsyncThunk(
     }
   }
 );
+export const chageTodoDone = createAsyncThunk(
+  'chageTodoDone',
+  async (data, { dispatch }) => {
+    try {
+      const { status } = await api.put(`/todos/${data.id}`, { ...data });
+
+      if (status === 200) {
+        dispatch(fetchTodos());
+      }
+      return data;
+    } catch (err) {
+      return false;
+    }
+  }
+);

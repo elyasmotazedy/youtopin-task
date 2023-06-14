@@ -1,4 +1,4 @@
-import { removeTodo } from '@/api/todo';
+import { removeTodo, chageTodoDone } from '@/api/todo';
 import { setEditData } from '@/redux/slices/todo';
 import { useDispatch } from 'react-redux';
 
@@ -9,9 +9,12 @@ import {
   Button,
   Typography,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 
 const TodoItem = ({ item }) => {
   const { title, id, done, description } = item;
@@ -31,6 +34,25 @@ const TodoItem = ({ item }) => {
 
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {done ? 'Done' : 'Not done'}
+          {!done ? (
+            <Tooltip
+              title="Mark as Done"
+              onClick={() => dispatch(chageTodoDone({ ...item, done: true }))}
+            >
+              <IconButton>
+                <CheckIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              title="Change to Not Done"
+              onClick={() => dispatch(chageTodoDone({ ...item, done: false }))}
+            >
+              <IconButton>
+                <RemoveDoneIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </Typography>
         <Typography variant="body2" noWrap>
           {description}
