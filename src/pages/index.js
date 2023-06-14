@@ -43,13 +43,13 @@ export default function Home() {
           </AddTodoGrid>
           <TodosGrid item container xs={8} sx={{ px: 3 }}>
             {isLoading ? (
-              <Grid container>
+              <Grid container item>
                 <LoadingPlaceHolder />
               </Grid>
             ) : (
               data &&
               data.map((item) => (
-                <Grid key={item.id} xs={4} sx={{ my: 2 }}>
+                <Grid key={item.id} xs={4} sx={{ my: 2 }} item>
                   <TodoItem item={item} />
                 </Grid>
               ))

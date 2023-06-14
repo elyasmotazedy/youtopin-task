@@ -1,9 +1,9 @@
 import { Card, CardActions, CardContent, Grid, Skeleton } from '@mui/material';
 
 const LoadingPlaceHolder = () => {
-  const arr = Array.from({ length: 3 });
-  return arr.map((item) => (
-    <Grid key={item} xs={4} sx={{ my: 4 }}>
+  const arr = [...Array(3).keys()];
+  return arr.map((value) => (
+    <Grid key={value} xs={4} sx={{ my: 4 }} item>
       <Card sx={{ mx: 1 }}>
         <CardContent>
           <Skeleton variant="text" width={150} sx={{ fontSize: '1rem' }} />

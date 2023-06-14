@@ -6,7 +6,6 @@ import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 
 const IsDone = ({ item }) => {
   const { done } = item;
-  console.log('item', item);
   const dispatch = useDispatch();
   return (
     <>

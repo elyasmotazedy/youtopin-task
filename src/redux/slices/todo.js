@@ -57,6 +57,7 @@ const todoSlice = createSlice({
     });
     builder.addCase(editTodo.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.editData = null;
     });
     builder.addCase(removeTodo.fulfilled, (state, action) => {
       state.isLoading = false;

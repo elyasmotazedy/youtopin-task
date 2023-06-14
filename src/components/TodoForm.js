@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, editTodo } from '@/api/todo';
+import { Controller } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import { addTodo, editTodo } from '@/api/todo';
 import { useEffect } from 'react';
 import { Checkbox, TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -19,6 +20,7 @@ const TodoForm = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = methods;
 
@@ -33,6 +35,8 @@ const TodoForm = () => {
   useEffect(() => {
     if (editData) {
       reset(editData);
+    } else {
+      reset(defaultValues);
     }
   }, [editData]);
   return (
@@ -40,26 +44,53 @@ const TodoForm = () => {
       <Typography variant="h3" component="p" sx={{ my: 2 }} align="center">
         Add todo
       </Typography>
-      <TextField
-        {...register('title', { required: true })}
-        label="Title"
-        variant="outlined"
-        fullWidth
-        sx={{ my: 1 }}
-        error={errors.title}
-        helperText={errors.title && <span>This field is required</span>}
+      <Controller
+        name="title"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...register('title', { required: true })}
+            {...field}
+            label="Title"
+            variant="outlined"
+            fullWidth
+            sx={{ my: 1 }}
+            error={errors.title}
+            helperText={errors.title && <span>This field is required</span>}
+          />
+        )}
       />
-      <TextField
-        fullWidth
-        {...register('description', { required: true })}
-        label="Description"
-        multiline
-        rows={4}
-        sx={{ my: 1 }}
-        error={errors.description}
-        helperText={errors.description && <span>This field is required</span>}
+      <Controller
+        name="description"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            fullWidth
+            {...register('description', { required: true })}
+            label="Description"
+            multiline
+            rows={4}
+            sx={{ my: 1 }}
+            error={errors.description}
+            helperText={
+              errors.description && <span>This field is required</span>
+            }
+          />
+        )}
       />
-      <Checkbox size="small" {...register('done')} />
+      <Controller
+        name="done"
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            {...field}
+            checked={field.value}
+            size="small"
+            {...register('done')}
+          />
+        )}
+      />
       is it a done task?
       <LoadingButton
         loading={isLoading}
@@ -68,7 +99,7 @@ const TodoForm = () => {
         fullWidth
         sx={{ my: 2 }}
       >
-        Add
+        {editData ? 'Edit' : 'Add'}
       </LoadingButton>
     </form>
   );
