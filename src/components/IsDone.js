@@ -1,6 +1,6 @@
 import { chageTodoDone } from '@/api/todo';
 import { useDispatch } from 'react-redux';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 
@@ -9,7 +9,15 @@ const IsDone = ({ item }) => {
   const dispatch = useDispatch();
   return (
     <>
-      {done ? 'Done' : 'Not done'}
+      {done ? (
+        <Typography component="span" color="green">
+          Done
+        </Typography>
+      ) : (
+        <Typography component="span" color="red">
+          Not Done
+        </Typography>
+      )}
       {!done ? (
         <Tooltip
           title="Mark as Done"
