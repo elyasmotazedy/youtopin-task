@@ -15,7 +15,7 @@ const LoadingPlaceHolder = () => {
           />
           <Skeleton variant="text" sx={{ fontSize: '1rem', mb: 1.5 }} />
         </CardContent>
-        <CardActions>
+        <CardActions sx={{ justifyContent: 'space-between' }}>
           <Skeleton variant="rectangular" width={100} height={20} />
 
           <Skeleton variant="circular" width={30} height={30} />
