@@ -17,7 +17,9 @@ const TodoItem = ({ item }) => {
   const { title, id, done, description } = item;
   const dispatch = useDispatch();
   const deleteTodo = (id) => {
-    dispatch(removeTodo(id));
+    if (window.confirm('Are sure you want to delete this item?')) {
+      dispatch(removeTodo(id));
+    }
   };
 
   return (
