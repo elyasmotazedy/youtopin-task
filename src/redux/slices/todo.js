@@ -5,6 +5,7 @@ import {
   removeTodo,
   editTodo,
   chageTodoDone,
+  fetchTodo,
 } from '@/api/todo';
 
 const todoSlice = createSlice({
@@ -22,6 +23,9 @@ const todoSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchTodo.pending, (state, action) => {
       state.isLoading = true;
     });
     builder.addCase(addTodo.pending, (state, action) => {
@@ -43,6 +47,10 @@ const todoSlice = createSlice({
       state.isLoading = false;
       state.data = action.payload;
     });
+    builder.addCase(fetchTodo.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
     builder.addCase(addTodo.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = [...state.data, action.payload];
@@ -59,6 +67,10 @@ const todoSlice = createSlice({
 
     // _________________________________________
 
+    builder.addCase(fetchTodo.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+    });
     builder.addCase(fetchTodos.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;

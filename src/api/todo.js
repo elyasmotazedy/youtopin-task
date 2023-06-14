@@ -3,11 +3,22 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchTodos = createAsyncThunk('fetchTodos', async () => {
   try {
     const { data } = await api.get('/todos');
+
     return data;
   } catch (err) {
     return false;
   }
 });
+
+export const fetchTodo = createAsyncThunk('fetchTodo', async (id) => {
+  try {
+    const { data } = await api.get(`/todos/${id}`);
+    return data;
+  } catch (err) {
+    return false;
+  }
+});
+
 export const addTodo = createAsyncThunk('addTodo', async (params) => {
   try {
     const { data } = await api.post('/todos', { ...params });
